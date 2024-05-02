@@ -14,6 +14,7 @@ with open("max_result_words.txt", "r") as f:
 with open("max_result_cities.txt", "r") as f:
     max_city_score = int(f.read())
 
+
 @bot.message_handler(commands=["start"])
 def hello(message):
     global used_words
@@ -25,7 +26,8 @@ def hello(message):
     start_game = types.InlineKeyboardButton("Начать новую игру", callback_data='start_game')
     markup.add(start_game)
     bot.send_message(message.chat.id, 'Я бот помощник в игре в слова и игре в российские города! '
-                                      'Я проверяю есть ли такой город в России, говорю на какую букву нужно назвать слово '
+                                      'Я проверяю есть ли такой город в России, '
+                                      'говорю на какую букву нужно назвать слово '
                                       'и главное проверяю чтобы слова не повторялись', reply_markup=markup)
 
 
@@ -158,7 +160,8 @@ def handle_message(message):
                 used_words.append(city)
                 city_score += 1
             return
-        elif used_words[-1][-1] in 'ьъы' and city not in used_words and used_words[-1][-2] == city[0] and city in cities:
+        elif (used_words[-1][-1] in 'ьъы' and city not in used_words and used_words[-1][-2] == city[0] and
+              city in cities):
             bot.send_message(message.chat.id, f"Отлично! Теперь назови город, начинающийся на букву "
                                               f"'{city[-1].upper()}'.",
                              reply_markup=markup)
